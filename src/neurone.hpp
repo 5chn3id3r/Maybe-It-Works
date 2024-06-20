@@ -2,6 +2,7 @@
 #define NEURONE_HPP
 
 #include <cmath>
+#include <iostream>
 
 struct Neurone 
 {
