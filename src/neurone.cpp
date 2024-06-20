@@ -5,14 +5,15 @@ float sigmoid(float x)
     return 1.f / (1.f + exp(-x));
 }
 
-Neurone *CreateNeurone(float *weights, unsigned int n_inputs, unsigned int n_outputs)
+Neurone *CreateNeurone(float *weights, unsigned int n_inputs, unsigned int n_outputs, NType type)
 {
-    if (n_inputs <= 0 || n_outputs <= 0 || weights == NULL)
+    if (n_inputs <= 0 || n_outputs <= 0 || weights == NULL || type <= 0 || type >= 4)
     {
-        printf("Problem in the variable give\n");
+        printf("Problem in the variable given\n");
         return nullptr;
     }
     Neurone *neurone = (Neurone *)calloc(1, sizeof(Neurone));
+    neurone->type = type;
     neurone->n_inputs = n_inputs;
     neurone->n_outputs = n_outputs;
     neurone->weights = (float *)calloc(n_inputs, sizeof(float));
@@ -21,6 +22,7 @@ Neurone *CreateNeurone(float *weights, unsigned int n_inputs, unsigned int n_out
     neurone->inputs = nullptr;
     neurone->outputs = (float *)calloc(n_outputs, sizeof(float));
     neurone->outputs = nullptr;
+    neurone->type = type;
 
     return neurone;
 }
