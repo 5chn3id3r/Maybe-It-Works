@@ -4,13 +4,24 @@
 #include <cmath>
 #include <iostream>
 
-struct Neurone 
+struct Neurone
 {
     unsigned int n_inputs;
     unsigned int n_outputs;
-    float* inputs;
-    float* outputs;
-    float* weights;
+    float *inputs;
+    float *outputs;
+    float *weights;
 };
+
+/// @brief A function which allocates memory for neurones and put given weights in parameter
+/// @param weights Array of weights
+/// @param n_inputs Number of inputs
+/// @param n_outputs Number of outputs
+/// @return The neurone correctly allocated
+Neurone *CreateNeurone(float *weights, unsigned int n_inputs, unsigned int n_outputs);
+
+/// @brief A function which free memory allocated for neurone
+/// @param neurone The neurone you want to free
+void DeleteNeurone(Neurone *neurone);
 
 #endif
