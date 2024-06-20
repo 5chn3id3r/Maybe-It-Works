@@ -4,7 +4,8 @@
 #include <cmath>
 #include <iostream>
 
-enum NType {
+enum NType
+{
     DEFAULT = 0,
     INPUT,
     OUTPUT,
@@ -35,6 +36,6 @@ void DeleteNeurone(Neurone *neurone);
 
 /// @brief A function which compute the output of a neurone
 /// @param neurone The neurone to compute
-void ComputeNeurone(Neurone* neurone);
+void ComputeNeurone(Neurone *neurone);
 
 #endif

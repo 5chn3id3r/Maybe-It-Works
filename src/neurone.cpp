@@ -24,6 +24,9 @@ Neurone *CreateNeurone(float *weights, unsigned int n_inputs, unsigned int n_out
     neurone->outputs = nullptr;
     neurone->type = type;
 
+    neurone->memory = (float *)calloc(n_outputs, sizeof(float));
+    neurone->memory = nullptr;
+
     return neurone;
 }
 
@@ -37,20 +40,24 @@ void DeleteNeurone(Neurone *neurone)
     free(neurone->inputs);
     free(neurone->outputs);
     free(neurone->weights);
+    free(neurone->memory);
     free(neurone);
 }
 
-void ComputeNeurone(Neurone* neurone)
+void ComputeNeurone(Neurone *neurone)
 {
     if (neurone == nullptr)
-        printf("Unallocated Neurone\n");return;
-    
+        printf("Unallocated Neurone\n");
+    return;
+
     if (neurone->n_inputs == 0 || neurone->n_outputs == 0)
-        printf("Neurone has no inputs or outputs\n");return;
+        printf("Neurone has no inputs or outputs\n");
+    return;
 
     if (neurone->inputs == nullptr || neurone->outputs == nullptr || neurone->weights == nullptr)
-        printf("Neurone has no inputs, outputs or weights\n");return;
-    
+        printf("Neurone has no inputs, outputs or weights\n");
+    return;
+
     for (unsigned int i = 0; i < neurone->n_outputs; i++)
     {
         neurone->outputs[i] = 0.f;
@@ -61,4 +68,3 @@ void ComputeNeurone(Neurone* neurone)
         neurone->outputs[i] = sigmoid(neurone->outputs[i]);
     }
 }
-
