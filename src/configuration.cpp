@@ -31,7 +31,6 @@ std::vector<std::string> split(const std::string &s, char delim)
 Configuration *readConfig(const std::string &fp)
 {
 	std::ifstream input(fp);
-	input.open("r");
 
 	if (!input.is_open()) {
 		std::cout << "Failed to open configuration file." << std::endl;
@@ -62,7 +61,7 @@ Configuration *readConfig(const std::string &fp)
 		if (dict.find(keyList[i]) == dict.cend()) {
 			ok = false;
 
-			std::cout << "Missing cpnfiguration key '" << keyList[i] << "'" << std::endl;
+			std::cout << "Missing configuration key '" << keyList[i] << "'" << std::endl;
 		}
 	}
 
@@ -73,6 +72,7 @@ Configuration *readConfig(const std::string &fp)
 
 	conf->inputWeightFp = dict["InputWeightFile"];
 	conf->linksFp = dict["LinkFile"];
+	conf->typeFile = dict["TypeFile"];
 	conf->neuronesCount = std::stoi(dict["Neurones"]);
 
 	return conf;

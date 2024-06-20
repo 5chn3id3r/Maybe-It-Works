@@ -11,7 +11,6 @@ struct Configuration
 	std::string typeFile;
 
 	size_t neuronesCount;
-
 };
 
 Configuration *readConfig(const std::string &fp);
