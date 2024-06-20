@@ -2,9 +2,10 @@
 
 #include <fstream>
 #include <iostream>
-#include <sstream>
 #include <unordered_map>
 #include <vector>
+
+#include "misc.hpp"
 
 
 const char *keyList[] = {
@@ -14,19 +15,6 @@ const char *keyList[] = {
 	"Neurones",
 };
 
-
-std::vector<std::string> split(const std::string &s, char delim)
-{
-	std::vector<std::string> result;
-	std::stringstream ss (s);
-	std::string item;
-
-	while (getline (ss, item, delim)) {
-		result.push_back (item);
-	}
-
-	return result;
-}
 
 Configuration *readConfig(const std::string &fp)
 {
@@ -43,7 +31,7 @@ Configuration *readConfig(const std::string &fp)
 	int lineNo = 1;
 	std::string line;
 	while (std::getline(input, line)) {
-		auto vect = split(line, '=');
+		auto vect = split(line, "=");
 		if (vect.size() != 2) {
 			std::cout << "Invalid syntax in config file, line " << lineNo << std::endl;
 
