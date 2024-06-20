@@ -4,15 +4,29 @@
 #include <iostream>
 #include <sstream>
 #include <unordered_map>
+#include <vector>
 
 
 const char *keyList[] = {
 	"InputWeightFile",
-	"WeightFile",
 	"LinkFile",
+	"TypeFile",
 	"Neurones",
 };
 
+
+std::vector<std::string> split(const std::string &s, char delim)
+{
+	std::vector<std::string> result;
+	std::stringstream ss (s);
+	std::string item;
+
+	while (getline (ss, item, delim)) {
+		result.push_back (item);
+	}
+
+	return result;
+}
 
 Configuration *readConfig(const std::string &fp)
 {
@@ -30,17 +44,15 @@ Configuration *readConfig(const std::string &fp)
 	int lineNo = 1;
 	std::string line;
 	while (std::getline(input, line)) {
-		std::istringstream iss(line);
-		std::string k, v;
-
-		if (!(iss >> k >> v)) { // error
-			std::cout << "Failed to read configuration, at line " << lineNo << std::endl;
+		auto vect = split(line, '=');
+		if (vect.size() != 2) {
+			std::cout << "Invalid syntax in config file, line " << lineNo << std::endl;
 
 			delete conf;
 			return nullptr;
 		}
 
-		dict[k] = v;
+		dict[vect[0]] = vect[1];
 		lineNo++;
 	}
 
@@ -60,7 +72,6 @@ Configuration *readConfig(const std::string &fp)
 	}
 
 	conf->inputWeightFp = dict["InputWeightFile"];
-	conf->weightFp = dict["WeightFile"];
 	conf->linksFp = dict["LinkFile"];
 	conf->neuronesCount = std::stoi(dict["Neurones"]);
 

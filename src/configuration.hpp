@@ -7,8 +7,8 @@
 struct Configuration
 {
 	std::string linksFp;
-	std::string weightFp;
 	std::string inputWeightFp;
+	std::string typeFile;
 
 	size_t neuronesCount;
 
