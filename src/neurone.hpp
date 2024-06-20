@@ -24,4 +24,8 @@ Neurone *CreateNeurone(float *weights, unsigned int n_inputs, unsigned int n_out
 /// @param neurone The neurone you want to free
 void DeleteNeurone(Neurone *neurone);
 
+/// @brief A function which compute the output of a neurone
+/// @param neurone The neurone to compute
+void ComputeNeurone(Neurone* neurone);
+
 #endif

@@ -38,9 +38,6 @@ void DeleteNeurone(Neurone *neurone)
     free(neurone);
 }
 
-/* TODO : ComputeNeurone(Neurone* neurone)
-a function which computes the output of the neurone
-*/
 void ComputeNeurone(Neurone* neurone)
 {
     if (neurone == nullptr)
