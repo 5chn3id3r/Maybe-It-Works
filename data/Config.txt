@@ -1,0 +1,4 @@
+InputWeightFile=../data/InputWeightFile
+LinkFile=../data/LinkFile
+TypeFile=../data/TypeFile
+Neurones=5

@@ -7,9 +7,9 @@
 enum NType
 {
     DEFAULT = 0,
-    INPUT,
-    OUTPUT,
-    KILLER
+    INPUT = 1,
+    OUTPUT = 2,
+    KILLER = 3
 };
 
 struct Neurone
