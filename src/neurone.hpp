@@ -3,7 +3,8 @@
 
 #include <cmath>
 
-struct Neurone {
+struct Neurone 
+{
     unsigned int n_inputs;
     unsigned int n_outputs;
     float* inputs;

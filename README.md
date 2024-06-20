@@ -10,3 +10,7 @@
 - Weight variable
 - Add and delete perceptrons and connections
 - Immutable input (reading value in memory) and output (writing value in memory) perceptrons
+
+# TODO
+- Perceptron
+- NeuralNetwork File
