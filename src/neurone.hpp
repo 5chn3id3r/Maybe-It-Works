@@ -20,6 +20,7 @@ struct Neurone
     NType type;
     unsigned int n_inputs;
     unsigned int n_outputs;
+
     float *inputs;
     float *outputs;
     float *memory;
