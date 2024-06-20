@@ -61,3 +61,4 @@ void ComputeNeurone(Neurone* neurone)
         neurone->outputs[i] = sigmoid(neurone->outputs[i]);
     }
 }
+

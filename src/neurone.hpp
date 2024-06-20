@@ -18,6 +18,7 @@ struct Neurone
     unsigned int n_outputs;
     float *inputs;
     float *outputs;
+    float *memory;
     float *weights;
 };
 
