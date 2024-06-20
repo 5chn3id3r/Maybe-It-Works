@@ -7,12 +7,12 @@
 enum NType
 {
     DEFAULT = 0,
-    INPUT,
-    OUTPUT,
-	KILLER,
+    INPUT = 1,
+    OUTPUT = 2,
+    KILLER = 3,
 
-	First = DEFAULT,
-	Last = KILLER,
+    First = DEFAULT,
+    Last = KILLER,
 };
 
 struct Neurone
