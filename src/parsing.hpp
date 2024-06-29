@@ -3,12 +3,12 @@
 
 #include <string>
 
-#include "neurone.hpp"
+struct Neuron;
 
 
-bool parseNeuronesTypes(const std::string &fp, Neurone *neurones, size_t size);
-bool parseNeuronesLinks(const std::string &fp, Neurone *neurones, size_t size);
-bool parseNeuronesInputsWeights(const std::string &fp, Neurone *neurones, size_t size);
+bool parseNeuronsTypes(const std::string &fp, Neuron *neurones, size_t size);
+bool parseNeuronsLinks(const std::string &fp, Neuron *neurones, size_t size);
+bool parseNeuronsInputsWeights(const std::string &fp, Neuron *neurones, size_t size);
 
 
 #endif // PARSING_HPP

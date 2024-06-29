@@ -5,6 +5,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include "neuron.hpp"
+#include "parsing.hpp"
 #include "misc.hpp"
 
 
@@ -12,7 +14,7 @@ const char *keyList[] = {
 	"InputWeightFile",
 	"LinkFile",
 	"TypeFile",
-	"Neurones",
+	"Neurons",
 };
 
 
@@ -61,7 +63,8 @@ Configuration *readConfig(const std::string &fp)
 	conf->inputWeightFp = dict["InputWeightFile"];
 	conf->linksFp = dict["LinkFile"];
 	conf->typeFile = dict["TypeFile"];
-	conf->neuronesCount = std::stoi(dict["Neurones"]);
+	conf->neuronsCount = std::stoi(dict["Neurons"]);
+	std::cout << "Configuration loaded." << std::endl;
 
 	return conf;
 }
@@ -69,4 +72,50 @@ Configuration *readConfig(const std::string &fp)
 void DeleteConfiguration(Configuration *conf)
 {
 	delete conf;
+}
+
+Neuron *neuronsFromConfig(const Configuration * const config)
+{
+	Neuron *neurons = (Neuron *)calloc(config->neuronsCount, sizeof(Neuron));
+	if (!neurons) {
+		std::cout << "Failed to allocate neurons required for the network." << std::endl;
+		return nullptr;
+	}
+
+	std::cout << "Loading neurons' types..." << std::endl;
+	if (!parseNeuronsTypes(config->typeFile, neurons, config->neuronsCount)) {
+		free(neurons);
+		return nullptr;
+	}
+
+	std::cout << "Loading neurons' links..." << std::endl;
+	if (!parseNeuronsLinks(config->linksFp, neurons, config->neuronsCount)) {
+		free(neurons);
+		return nullptr;
+	}
+
+	std::cout << "Loading neuronal links' data..." << std::endl;
+	if (!parseNeuronsInputsWeights(config->inputWeightFp, neurons, config->neuronsCount)) {
+		free(neurons);
+		return nullptr;
+	}
+
+	std::cout << "Loading done." << std::endl;
+	return neurons;
+}
+
+void deleteNeuronsFromConfig(const Configuration * const config, Neuron *neurons)
+{
+	if (!neurons) {
+		return;
+	}
+
+	if (!config) {
+		std::cout << "No config given to release neurons." << std::endl;
+		return;
+	}
+
+	for (size_t i = 0; i < config->neuronsCount; i++) {
+		DeleteNeuron(&neurons[i]);
+	}
 }

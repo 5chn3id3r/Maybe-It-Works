@@ -3,10 +3,11 @@
 #include <fstream>
 #include <iostream>
 
+#include "neuron.hpp"
 #include "misc.hpp"
 
 
-bool parseNeuronesTypes(const std::string &fp, Neurone *neurones, size_t size)
+bool parseNeuronsTypes(const std::string &fp, Neuron *neurones, size_t size)
 {
 	std::ifstream input(fp);
 
@@ -40,15 +41,13 @@ bool parseNeuronesTypes(const std::string &fp, Neurone *neurones, size_t size)
 	return true;
 }
 
-bool parseNeuronesLinks(const std::string &fp, Neurone *neurones, size_t size)
+bool parseNeuronsLinks(const std::string &fp, Neuron *neurones, size_t size)
 {
-	// [TODO] Define more precisely how we handle the neurons' IOs to make this func.
-
 	std::cout << __func__ << " is currently not implemented." << std::endl;
 
-	/*std::ifstream input(fp);
+	std::ifstream input(fp);
 
-	if (!input.is_open()) {
+	/*if (!input.is_open()) {
 		std::cout << "Failed to open neurones' types' file." << std::endl;
 		return false;
 	}
@@ -77,7 +76,7 @@ bool parseNeuronesLinks(const std::string &fp, Neurone *neurones, size_t size)
 	return true;
 }
 
-bool parseNeuronesInputsWeights(const std::string &fp, Neurone *neurones, size_t size)
+bool parseNeuronsInputsWeights(const std::string &fp, Neuron *neurones, size_t size)
 {
 	// [TODO] Define more precisely how we handle the neurons' IOs to make this func.
 
