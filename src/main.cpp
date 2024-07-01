@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "configuration.hpp"
+#include "parsing.hpp"
 
 
 int main()
@@ -23,6 +24,8 @@ int main()
 	}
 
 	std::cout << "Neurons have been loaded from files according to the config file.\n" << std::endl;
+
+	printNeuronsData(neurons, config->neuronsCount);
 
 	deleteNeuronsFromConfig(config, neurons);
 	DeleteConfiguration(config);

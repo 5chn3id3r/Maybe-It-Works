@@ -1,6 +1,8 @@
 #ifndef NEURON_H
 #define NEURON_H
 
+#include "types.hpp"
+
 
 enum NType
 {
@@ -16,21 +18,16 @@ enum NType
 struct Neuron
 {
 	NType type = DEFAULT;
-	unsigned int n_inputs;
-	unsigned int n_outputs;
 
-	float *inputs;
-	float *outputs;
-	float *memory;
-	float *weights;
+	uint n_inputs = 0;
+
+	InputBuffer inputs = nullptr;
+	float memory = 0.f;
+	Buffer weights = nullptr;
+
+	float value = 0.f;
 };
 
-/// @brief A function which allocates memory for neurons and put given weights in parameter
-/// @param weights Array of weights
-/// @param n_inputs Number of inputs
-/// @param n_outputs Number of outputs
-/// @return The correctly allocated neuron
-Neuron *CreateNeuron(float *weights, unsigned int n_inputs, unsigned int n_outputs);
 
 /// @brief A function which frees memory allocated for neuron
 /// @param neurone The neurone you want to delete AND free
