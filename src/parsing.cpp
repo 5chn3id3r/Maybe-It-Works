@@ -21,15 +21,19 @@ bool parseNeuronsTypes(const std::string &fp, Neuron * const neurones, const siz
 	int lineNo = 1;
 	std::string line;
 	while (std::getline(input, line)) {
-		auto vect = split(line, " : "); // Format: "NodeID : TypeID"
+		const std::vector<std::string> vect = split(line, " : "); // Format: "NodeID : TypeID"
 		if (vect.size() != 2) [[unlikely]] {
 			std::cout << "Invalid syntax in types file, line " << lineNo << std::endl;
 			return false;
 		}
 
-		size_t node = std::stoi(vect[0]);
-		uint type = std::stoi(vect[1]);
+		const size_t node = std::stoi(vect[0]);
+		const uint type = std::stoi(vect[1]);
 
+		if (node < 0 || node > size) [[unlikely]] {
+			std::cout << "Invalid node ID, line " << lineNo << std::endl;
+			return false;
+		}
 		if (type < NType::First || type > NType::Last) [[unlikely]] {
 			std::cout << "Invalid node type, line " << lineNo << std::endl;
 			return false;
@@ -64,13 +68,13 @@ bool parseNeuronsLinks(const std::string &fp, Neuron * const neurons, const size
 			return false;
 		}
 
-		auto nid = std::stoi(vect[0]);
+		const int nid = std::stoi(vect[0]);
 		if (nid < 0 || nid >=  size) [[unlikely]] { // Check if within range.
 			std::cout << "Invalid source neuron ID in links file, line " << lineNo << std::endl;
 			return false;
 		}
 
-		auto inputs = split(vect[1], ' ');
+		const std::vector<std::string> inputs = split(vect[1], ' ');
 		int idNo = 1;
 		for (const auto &elem : inputs) { // Check we have values.
 			if (!all_of(elem.begin(), elem.end(), isdigit)) [[unlikely]] {
@@ -90,10 +94,10 @@ bool parseNeuronsLinks(const std::string &fp, Neuron * const neurons, const size
 
 		neurons[nid].n_inputs = inputs.size();
 		neurons[nid].inputs = static_cast<InputBuffer>(malloc(inputs.size() * sizeof(float *)));
+
 		size_t curr = 0;
 		for (const auto &elem : inputs) {
 			const int v = std::atoi(elem.c_str());
-
 			neurons[nid].inputs[curr] = &neurons[v].value;
 			curr++;
 		}
@@ -119,13 +123,13 @@ bool parseNeuronsInputsWeights(const std::string &fp, Neuron * const neurons, co
 	int lineNo = 1;
 	std::string line;
 	while (std::getline(input, line)) {
-		auto vect = split(line, " : "); // Format: "NodeID : Weight0 Weight1 ..."
+		const std::vector<std::string> vect = split(line, " : "); // Format: "NodeID : Weight0 Weight1 ..."
 		if (vect.size() != 2) [[unlikely]] {
 			std::cout << "Invalid syntax in weights file, line " << lineNo << std::endl;
 			return false;
 		}
 
-		auto nid = std::atoi(vect[0].c_str());
+		const int nid = std::atoi(vect[0].c_str());
 		if (nid < 0 || nid >=  size) [[unlikely]] { // Check if within range.
 			std::cout << "Invalid neuron ID in weights file, line " << lineNo << std::endl;
 			return false;

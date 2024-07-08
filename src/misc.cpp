@@ -9,7 +9,7 @@ std::vector<std::string> split(const std::string &s, const char delim)
 	std::stringstream ss(s);
 	std::string item;
 
-	while (getline (ss, item, delim)) {
+	while (std::getline(ss, item, delim)) {
 		result.push_back (item);
 	}
 
@@ -24,7 +24,7 @@ std::vector<std::string> split(const std::string &s, const std::string &delim)
 
 	while (pos < s.size()) {
 		pos = s.find(delim, offset);
-		std::string str = s.substr(offset, pos);
+		const std::string str = s.substr(offset, pos);
 		res.push_back(str);
 
 		offset += delim.length() + str.length();
