@@ -8,11 +8,11 @@
 #include "misc.hpp"
 
 
-bool parseNeuronsTypes(const std::string &fp, Neuron *neurones, size_t size)
+bool parseNeuronsTypes(const std::string &fp, Neuron * const neurones, const size_t size)
 {
 	std::ifstream input(fp);
 
-	if (!input.is_open()) {
+	if (!input.is_open()) [[unlikely]] {
 		std::cout << "Failed to open neurones' types' file." << std::endl;
 		return false;
 	}
@@ -22,7 +22,7 @@ bool parseNeuronsTypes(const std::string &fp, Neuron *neurones, size_t size)
 	std::string line;
 	while (std::getline(input, line)) {
 		auto vect = split(line, " : "); // Format: "NodeID : TypeID"
-		if (vect.size() != 2) {
+		if (vect.size() != 2) [[unlikely]] {
 			std::cout << "Invalid syntax in types file, line " << lineNo << std::endl;
 			return false;
 		}
@@ -30,7 +30,7 @@ bool parseNeuronsTypes(const std::string &fp, Neuron *neurones, size_t size)
 		size_t node = std::stoi(vect[0]);
 		uint type = std::stoi(vect[1]);
 
-		if (type < NType::First || type > NType::Last) {
+		if (type < NType::First || type > NType::Last) [[unlikely]] {
 			std::cout << "Invalid node type, line " << lineNo << std::endl;
 			return false;
 		}
@@ -43,11 +43,11 @@ bool parseNeuronsTypes(const std::string &fp, Neuron *neurones, size_t size)
 	return true;
 }
 
-bool parseNeuronsLinks(const std::string &fp, Neuron *neurons, size_t size)
+bool parseNeuronsLinks(const std::string &fp, Neuron * const neurons, const size_t size)
 {
 	std::ifstream input(fp);
 
-	if (!input.is_open()) {
+	if (!input.is_open()) [[unlikely]] {
 		std::cout << "Failed to open neurones' types' file." << std::endl;
 		return false;
 	}
@@ -57,15 +57,15 @@ bool parseNeuronsLinks(const std::string &fp, Neuron *neurons, size_t size)
 	std::string line;
 	while (std::getline(input, line)) { // For each line
 		const std::vector<std::string> vect = split(line, " : "); // Format: "NodeID : InNodeID InNodeID ..."
-		if (vect.size() < 2) {
+		if (vect.size() < 2) [[unlikely]] {
 			continue;
-		} else if (vect.size() > 2) { // Check we hav a valid format.
+		} else if (vect.size() > 2) [[unlikely]] { // Check we hav a valid format.
 			std::cout << "Invalid syntax in links file, line " << lineNo << std::endl;
 			return false;
 		}
 
 		auto nid = std::stoi(vect[0]);
-		if (nid < 0 || nid >=  size) { // Check if within range.
+		if (nid < 0 || nid >=  size) [[unlikely]] { // Check if within range.
 			std::cout << "Invalid source neuron ID in links file, line " << lineNo << std::endl;
 			return false;
 		}
@@ -73,14 +73,14 @@ bool parseNeuronsLinks(const std::string &fp, Neuron *neurons, size_t size)
 		auto inputs = split(vect[1], ' ');
 		int idNo = 1;
 		for (const auto &elem : inputs) { // Check we have values.
-			if (!all_of(elem.begin(), elem.end(), isdigit)) {
+			if (!all_of(elem.begin(), elem.end(), isdigit)) [[unlikely]] {
 				std::cout << "Invalid target neuron ID in links file, does, not contain only numbers, line " << lineNo << ", element no. " << idNo << std::endl;
 				std::cout << "Value: '" << elem << "'" << std::endl;
 				return false;
 			}
 
 			const int v = std::stoi(elem);
-			if (v < 0 || v >= size) {
+			if (v < 0 || v >= size) [[unlikely]] {
 				std::cout << "Invalid target neuron ID in links file, OOR, line " << lineNo << ", element no. " << idNo << std::endl;
 				return false;
 			}
@@ -104,11 +104,11 @@ bool parseNeuronsLinks(const std::string &fp, Neuron *neurons, size_t size)
 	return true;
 }
 
-bool parseNeuronsInputsWeights(const std::string &fp, Neuron *neurons, size_t size)
+bool parseNeuronsInputsWeights(const std::string &fp, Neuron * const neurons, const size_t size)
 {
 	std::ifstream input(fp);
 
-	if (!input.is_open()) {
+	if (!input.is_open()) [[unlikely]] {
 		std::cout << "Failed to open neurones' weights' file." << std::endl;
 		return false;
 	}
@@ -120,13 +120,13 @@ bool parseNeuronsInputsWeights(const std::string &fp, Neuron *neurons, size_t si
 	std::string line;
 	while (std::getline(input, line)) {
 		auto vect = split(line, " : "); // Format: "NodeID : Weight0 Weight1 ..."
-		if (vect.size() != 2) {
+		if (vect.size() != 2) [[unlikely]] {
 			std::cout << "Invalid syntax in weights file, line " << lineNo << std::endl;
 			return false;
 		}
 
 		auto nid = std::atoi(vect[0].c_str());
-		if (nid < 0 || nid >=  size) { // Check if within range.
+		if (nid < 0 || nid >=  size) [[unlikely]] { // Check if within range.
 			std::cout << "Invalid neuron ID in weights file, line " << lineNo << std::endl;
 			return false;
 		}
@@ -134,7 +134,7 @@ bool parseNeuronsInputsWeights(const std::string &fp, Neuron *neurons, size_t si
 		const std::vector<std::string> weights = split(vect[1], ' ');
 		int idNo = 1;
 		for (const auto &elem : weights) { // Check we have values.
-			if (!is_float(elem)) {
+			if (!is_float(elem)) [[unlikely]] {
 				std::cout << "Invalid target neuron ID in links file, does, not containing only numbers, line " << lineNo << ", element no. " << idNo << std::endl;
 				return false;
 			}
@@ -154,7 +154,7 @@ bool parseNeuronsInputsWeights(const std::string &fp, Neuron *neurons, size_t si
 	return true;
 }
 
-void printNeuronsData(Neuron *neurons, size_t size)
+void printNeuronsData(const Neuron * const neurons, const size_t size)
 {
 	for (size_t i = 0; i < size; i++) {
 		std::cout << ">> Neuron no. " << i << std::endl;

@@ -19,10 +19,10 @@ struct Configuration
 
 Configuration *readConfig(const std::string &fp);
 
-void DeleteConfiguration(Configuration *conf);
+void DeleteConfiguration(Configuration * const conf);
 
 Neuron *neuronsFromConfig(const Configuration * const config);
-void deleteNeuronsFromConfig(const Configuration * const config, Neuron *neurons);
+void deleteNeuronsFromConfig(const Configuration * const config, Neuron * const neurons);
 
 
 #endif // CONFIGURATION_HPP

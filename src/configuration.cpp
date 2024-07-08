@@ -69,7 +69,7 @@ Configuration *readConfig(const std::string &fp)
 	return conf;
 }
 
-void DeleteConfiguration(Configuration *conf)
+void DeleteConfiguration(Configuration * const conf)
 {
 	delete conf;
 }

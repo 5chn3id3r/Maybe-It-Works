@@ -3,7 +3,7 @@
 #include <sstream>
 
 
-std::vector<std::string> split(const std::string &s, char delim)
+std::vector<std::string> split(const std::string &s, const char delim)
 {
 	std::vector<std::string> result;
 	std::stringstream ss(s);
@@ -33,9 +33,9 @@ std::vector<std::string> split(const std::string &s, const std::string &delim)
 	return res;
 }
 
-bool is_float(std::string myString)
+bool is_float(const std::string &string)
 {
-	std::istringstream iss(myString);
+	std::istringstream iss(string);
 	float f;
 	iss >> std::noskipws >> f; // noskipws considers leading whitespace invalid
 	// Check the entire string was consumed and if either failbit or badbit is set
