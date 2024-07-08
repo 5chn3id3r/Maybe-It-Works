@@ -4,12 +4,12 @@
 #include <iostream>
 
 
-float sigmoid(float x)
+constexpr float sigmoid(float x)
 {
 	return 1.f / (1.f + exp(-x));
 }
 
-void DeleteFreeNeuron(Neuron *neuron)
+void DeleteFreeNeuron(Neuron * const neuron)
 {
 	if (neuron == nullptr) {
 		std::cout << "Problem with the neuron given" << std::endl;
@@ -22,7 +22,7 @@ void DeleteFreeNeuron(Neuron *neuron)
 	free(neuron);
 }
 
-void DeleteNeuron(Neuron *neuron)
+void DeleteNeuron(Neuron * const neuron)
 {
 	if (neuron == nullptr) {
 		std::cout << "Problem with the neuron given" << std::endl;
@@ -34,42 +34,50 @@ void DeleteNeuron(Neuron *neuron)
 	//free(neuron->memory);
 }
 
-void ComputeNeuron(Neuron *neuron)
+void ComputeNeurons(Neuron * const neurons, const size_t size)
 {
-	if (neuron == nullptr) {
-		std::cout << "Unallocated neuron" << std::endl;
+	if (neurons == nullptr) [[unlikely]] {
+		std::cout << "Unallocated neurons!" << std::endl;
 		return;
 	}
 
-	if (neuron->n_inputs == 0 || neuron->n_inputs == 0) {
-		std::cout << "Neuron has no inputs" << std::endl;
-		return;
+	// Reset all memories.
+	for (size_t i = 0; i < size; i++) {
+		neurons[i].memory = 0.f;
 	}
 
-	neuron->memory = 0.f;
-	for (unsigned int i = 0; i < neuron->n_inputs; i++) {
-		neuron->memory += *neuron->inputs[i] * neuron->weights[i];
+	// Calculate for each neuron the sum
+	for (size_t i = 0; i < size; i++) {
+		if (neurons[i].n_inputs == 0) [[unlikely]] {
+			continue;
+		}
+
+		Neuron * const neuron = &neurons[i];
+		for (unsigned int i = 0; i < neuron->n_inputs; i++) {
+			neuron->memory += *neuron->inputs[i] * neuron->weights[i];
+		}
 	}
-	neuron->memory = sigmoid(neuron->memory);
+
+	// Apply function on sum.
+	// [NOTE] We can merge ComputeNeurons with DiffuseNeurons here by directly putting the result in value.
+	for (size_t i = 0; i < size; i++) {
+		neurons[i].memory = sigmoid(neurons[i].memory);
+	}
 }
 
-void DiffuseNeuron(Neuron *neuron)
+void DiffuseNeurons(Neuron * const neurons, const size_t size)
 {
-	if (neuron == nullptr) {
-		std::cout << "Unallocated neuron" << std::endl;
+	if (neurons == nullptr) [[unlikely]] {
+		std::cout << "Unallocated neurons!" << std::endl;
 		return;
 	}
 
-	if (neuron->n_inputs == 0) {
-		std::cout << "neuron has no inputs or outputs" << std::endl;
-		return;
-	}
+	for (size_t i = 0; i < size; i++) {
+		if (neurons[i].n_inputs == 0) [[unlikely]] {
+			continue;
+		}
 
-	if (neuron->inputs == nullptr || neuron->weights == nullptr) {
-		std::cout << "neuron has no inputs or weights" << std::endl;
-		return;
+		neurons[i].value = neurons[i].memory;
 	}
-
-	neuron->value = neuron->memory;
 }
 
